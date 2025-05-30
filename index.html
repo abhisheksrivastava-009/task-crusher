@@ -1,0 +1,188 @@
+<!-- 
+GitHub Repository: https://github.com/abhisheksrivastava-009/Projects/blob/main/todo-app
+Author: Abhishek Srivastava
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App - Abhishek Srivastava</title>    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Back to Projects Button -->
+    <div class="back-button-container">
+        <a href="../../projects.html" class="back-btn">
+            ← BACK TO PROJECTS
+        </a>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1 class="app-title">📝 My Todo App</h1>
+            <p class="app-subtitle">Stay organized and productive</p>
+        </header>
+
+        <!-- Stats Section -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">📋</div>
+                <div class="stat-info">
+                    <span class="stat-number" id="totalTasks">0</span>
+                    <span class="stat-label">Total Tasks</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-info">
+                    <span class="stat-number" id="completedTasks">0</span>
+                    <span class="stat-label">Completed</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-info">
+                    <span class="stat-number" id="pendingTasks">0</span>
+                    <span class="stat-label">Pending</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Task Section -->
+        <div class="add-task-container">
+            <div class="input-container">
+                <input type="text" id="taskInput" placeholder="Add a new task..." maxlength="100">
+                <select id="prioritySelect">
+                    <option value="low">🟢 Low</option>
+                    <option value="medium" selected>🟡 Medium</option>
+                    <option value="high">🔴 High</option>
+                </select>
+                <button id="addTaskBtn" class="add-btn">
+                    <span class="btn-text">Add Task</span>
+                    <span class="btn-icon">➕</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Filter and Search Section -->
+        <div class="controls-container">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search tasks..." class="search-input">
+                <span class="search-icon">🔍</span>
+            </div>
+            
+            <div class="filter-container">
+                <button class="filter-btn active" data-filter="all">
+                    <span>📋</span> All
+                </button>
+                <button class="filter-btn" data-filter="pending">
+                    <span>⏳</span> Pending
+                </button>
+                <button class="filter-btn" data-filter="completed">
+                    <span>✅</span> Completed
+                </button>
+                <button class="filter-btn" data-filter="high">
+                    <span>🔴</span> High Priority
+                </button>
+            </div>
+        </div>
+
+        <!-- Tasks List Section -->
+        <div class="tasks-container">
+            <div class="tasks-header">
+                <h3>Your Tasks</h3>
+                <div class="bulk-actions">
+                    <button id="selectAllBtn" class="bulk-btn">Select All</button>
+                    <button id="deleteSelectedBtn" class="bulk-btn danger" disabled>Delete Selected</button>
+                    <button id="clearCompletedBtn" class="bulk-btn">Clear Completed</button>
+                </div>
+            </div>
+            
+            <div class="tasks-list" id="tasksList">
+                <!-- Tasks will be dynamically added here -->
+            </div>
+            
+            <div class="empty-state" id="emptyState">
+                <div class="empty-icon">📝</div>
+                <h3>No tasks yet!</h3>
+                <p>Add your first task to get started</p>
+            </div>
+        </div>
+
+        <!-- Task Modal for Editing -->
+        <div class="modal" id="editModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>✏️ Edit Task</h3>
+                    <button class="close-btn" id="closeModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="editTaskInput" placeholder="Task description..." maxlength="100">
+                    <select id="editPrioritySelect">
+                        <option value="low">🟢 Low Priority</option>
+                        <option value="medium">🟡 Medium Priority</option>
+                        <option value="high">🔴 High Priority</option>
+                    </select>
+                    <textarea id="editTaskNotes" placeholder="Add notes (optional)..." rows="3" maxlength="200"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button id="saveTaskBtn" class="save-btn">💾 Save Changes</button>
+                    <button id="cancelEditBtn" class="cancel-btn">❌ Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Panel -->
+        <div class="settings-panel" id="settingsPanel">
+            <div class="settings-header">
+                <h3>⚙️ Settings</h3>
+                <button class="close-settings" id="closeSettings">&times;</button>
+            </div>
+            <div class="settings-content">
+                <div class="setting-item">
+                    <label>🌙 Dark Mode</label>
+                    <input type="checkbox" id="darkModeToggle" class="toggle">
+                </div>
+                <div class="setting-item">
+                    <label>🔔 Notifications</label>
+                    <input type="checkbox" id="notificationsToggle" class="toggle" checked>
+                </div>
+                <div class="setting-item">
+                    <label>💾 Auto Save</label>
+                    <input type="checkbox" id="autoSaveToggle" class="toggle" checked>
+                </div>
+                <div class="setting-item">
+                    <button id="exportDataBtn" class="export-btn">📤 Export Data</button>
+                    <input type="file" id="importDataInput" accept=".json" style="display: none;">
+                    <button id="importDataBtn" class="import-btn">📥 Import Data</button>
+                </div>
+                <div class="setting-item">
+                    <button id="clearAllDataBtn" class="clear-data-btn">🗑️ Clear All Data</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Action Buttons -->
+        <div class="fab-container">
+            <button class="fab settings-fab" id="settingsFab" title="Settings">⚙️</button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with ❤️ by <strong>Abhishek Srivastava</strong></p>
+            <p class="version">v1.0.0</p>
+        </footer>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <span class="toast-icon">✅</span>
+            <span class="toast-message">Task added successfully!</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
